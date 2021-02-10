@@ -1,0 +1,48 @@
+{
+    "name": "step-04",
+    "version": "1.0.0",
+    "private": true,
+    "description": "",
+    "scripts": {
+        "dev": "node server",
+        "build:client": "webpack --config ./config/webpack.client.conf.js",
+        "build:server": "webpack --config ./config/webpack.server.conf.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "babel-core": "^6.26.3",
+        "babel-loader": "^7.1.5",
+        "babel-plugin-dynamic-import-node": "^2.3.3",
+        "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+        "css-loader": "^5.0.1",
+        "koa-convert": "^2.0.0",
+        "koa-webpack-dev-middleware": "^2.0.2",
+        "koa-webpack-hot-middleware": "^1.0.3",
+        "koa2": "^2.0.0-alpha.7",
+        "less": "^4.0.0",
+        "less-loader": "^7.2.1",
+        "path": "^0.12.7",
+        "stream": "0.0.2",
+        "style-loader": "^2.0.0",
+        "vue": "^2.6.12",
+        "vue-loader": "^15.9.6",
+        "vue-router": "^3.4.9",
+        "vue-template-compiler": "^2.6.12",
+        "webpack-cli": "^3.3.12",
+        "webpack-dev-middleware": "^4.0.2",
+        "webpack-dev-server": "^3.11.1",
+        "webpack-hot-middleware": "^2.25.0"
+    },
+    "dependencies": {
+        "axios": "^0.21.1",
+        "html-webpack-plugin": "^4.5.0",
+        "koa": "^2.13.0",
+        "koa-router": "^10.0.0",
+        "koa-static": "^5.0.0",
+        "vue-server-renderer": "^2.6.12",
+        "vue-style-loader": "^4.1.2",
+        "webpack": "^4.44.2",
+        "webpack-merge": "^5.7.3"
+    }
+}

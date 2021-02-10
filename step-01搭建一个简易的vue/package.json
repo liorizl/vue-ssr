@@ -1,0 +1,35 @@
+{
+    "name": "step-01",
+    "version": "1.0.0",
+    "private": true,
+    "description": "",
+    "scripts": {
+        "dev": "webpack-dev-server",
+        "build": "webpack",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "babel-core": "^6.26.3",
+        "babel-loader": "^7.1.5",
+        "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+        "css-loader": "^5.0.1",
+        "less": "^4.0.0",
+        "less-loader": "^7.2.1",
+        "path": "^0.12.7",
+        "postcss": "^8.2.2",
+        "postcss-loader": "^4.1.0",
+        "style-loader": "^2.0.0",
+        "vue": "^2.6.12",
+        "vue-loader": "^15.9.6",
+        "vue-router": "^3.4.9",
+        "vue-template-compiler": "^2.6.12",
+        "webpack-cli": "^3.3.12",
+        "webpack-dev-server": "^3.11.1"
+    },
+    "dependencies": {
+        "html-webpack-plugin": "^4.5.0",
+        "webpack": "^5.11.1"
+    }
+}

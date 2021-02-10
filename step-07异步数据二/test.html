@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ssr(server-side)</title>
+</head>
+
+<body>
+    <div id="app" data-server-rendered="true" data-v-7ba5bd90>
+        <h1 data-v-7ba5bd90>这是一个Vue页面的首页</h1>
+        <h3 class="red" data-v-7ba5bd90>hello vue</h3>
+        <p data-v-7ba5bd90><a href="/foo" data-v-7ba5bd90>foo</a> <a href="/bar" class="router-link-active"
+                data-v-7ba5bd90>bar</a></p>
+        <div data-v-2aa73eda data-v-7ba5bd90>
+            <p data-v-2aa73eda>这是Bar页面</p>
+            <p data-v-2aa73eda><span data-v-2aa73eda>页面11</span> <span data-v-2aa73eda>页面2</span> <span
+                    data-v-2aa73eda>页面3</span> <a href="/bar/1" data-v-2aa73eda>页面1</a> <a href="/bar/2"
+                    data-v-2aa73eda>页面2</a> <a href="/bar/3" aria-current="page"
+                    class="router-link-exact-active router-link-active" data-v-2aa73eda>页面3</a></p>
+            <p data-v-2aa73eda>标题:</p>
+            <p data-v-2aa73eda>内容:</p>
+        </div>
+    </div>
+    <script>
+        window.__INITIAL_STATE__ = {
+            "item": {},
+            "route": {
+                "name": "bar",
+                "path": "\u002Fbar\u002F3",
+                "hash": "",
+                "query": {},
+                "params": {
+                    "id": "3"
+                },
+                "fullPath": "\u002Fbar\u002F3",
+                "meta": {},
+                "from": {
+                    "name": null,
+                    "path": "\u002F",
+                    "hash": "",
+                    "query": {},
+                    "params": {},
+                    "fullPath": "\u002F",
+                    "meta": {}
+                }
+            },
+            "foo": {
+                "item": {
+                    "title": "我是bar3的标题",
+                    "content": "我是bar3的内容"
+                }
+            }
+        }
+    </script>
+    <script src="/client.bundle.js"></script>
+</body>
+
+</html>
