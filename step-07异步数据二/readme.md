@@ -2,7 +2,7 @@
 前面说了两种客户端数据预取的方式。  
 有一种情况当组件复用(/foo/1到/foo/2)，由于是同一个路由组件的生命周期不会运行，数据不会更新需要单独处理。  
 vue-router导航守卫里有个beforeRouteUpdate，会在复用的组件里调用该守卫。  
-同样使用全局混入
+同样使用全局混入解决  
 ```javascript
 Vue.mixin({
     beforeRouteUpdate(to, from, next) {
@@ -74,7 +74,7 @@ export default {
     }
 }
 ```
-在修改router.js
+再修改router.js
 ```javascript
 const routes = [
     //这里加了一个新组建index.vue,自己去创建一个index.vue吧
@@ -84,11 +84,12 @@ const routes = [
 ]
 ```
 path: '/bar/:id?'表示id可以存在也可以不存在 vue-router的路径解析采用的是 path-to-regexp，有很多种高级匹配模式。
-如果你的代码跟我一样，运行npm run dev后在浏览器地址中输入```http://localhost:3019/foo/1```会出现一个比较有意思的错误。
-```client.bundle.js:1 Uncaught SyntaxError: Unexpected token '<'```
-点开这个错误一看，client.bundle.js居然是返回的一段html,这是因为我在index.ssr.html中引入的client.bundle.js采用的相对路径
-```<script src="client.bundle.js"></script>```
-当前浏览器的url是http://localhost:3019/foo/1，加载client.bundle.js的时候浏览器就会去访问http://localhost:3019/foo/client.bundle.js，刚好路由就将client.bundle.js当成了:id匹配到foo这个组件，就返回了http://localhost:3019/foo页面的html，解决的方法是在webpack.base.conf.js的output里加上publicPath: '/dist/'。
+如果你的代码跟我一样，运行npm run dev后在浏览器地址中输入```http://localhost:3019/foo/1```会出现一个比较有意思的错误。  
+```client.bundle.js:1 Uncaught SyntaxError: Unexpected token '<'```  
+点开这个错误一看，client.bundle.js居然是返回的一段html,这是因为我在index.ssr.html中引入的client.bundle.js采用的相对路径  
+```<script src="client.bundle.js"></script>```  
+当前浏览器的url是```http://localhost:3019/foo/1```，加载client.bundle.js的时候浏览器就会去访问```http://localhost:3019/foo/client.bundle.js```，刚好路由就将client.bundle.js当成了:id匹配到foo这个组件，就返回了```http://localhost:3019/foo```页面的html，  
+解决的方法是在webpack.base.conf.js的output里加上publicPath: '/dist/'。
 ```javascript
 //entry-server
 
@@ -214,7 +215,7 @@ router.onReady(() => {
 ```
 
 
-分别修改下Bar.vue和Foo.vue组件
+分别修改下Bar.vue和Foo.vue组件  
 Bar.vue(Foo.vue也基本这样)
 ```
 <template>
@@ -326,7 +327,7 @@ router.onReady中能访问到达组件的信息，如果组件中有asyncData函
 vue-server-renderer会将context.state的数据附加到将要返回的html中```<script>window.__INITIAL_STATE__={item: XXX}</script>```  
 客户端接收到服务端返回的html  
 因为浏览器渲染内容是从上到下的，会先渲染html页面，最后再加载并运行client.bundle.js  
-entry.client.js中将vue程序挂载到了<div id="app">...</div>上，此时浏览器端已经被vue程序接管,entry.client.js将window.__INITIAL_STATE__数据存到store中,这就保证了前后端的数据一致。
+entry.client.js中将vue程序挂载到了```<div id="app">...</div>```上，此时浏览器端已经被vue程序接管,entry.client.js将window.__INITIAL_STATE__数据存到store中,这就保证了前后端的数据一致。  
 点击路由，因为此时浏览器已经被vue接管，会走一遍vue-router的路由守卫，如果浏览器端预取数据用的先获取到数据再渲染的方式，调用router.onReady中定义的router.beforeResolve守卫，运行将要到达组件中的asyncData,从而获取到新的数据并存入store。  
 路由完成后渲染组件时发现数据已经改变将新的数据替换掉旧的数据。
 router.onReady()只在第一次路由完成后执行，以后点击路由不会再运行，所以服务端第一次获取到数据后就不会再去获取数据，除非重新请求(如在地址栏输入地址或者刷新页面)。

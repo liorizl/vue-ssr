@@ -29,7 +29,7 @@ export { createRouter }
 ```
 通过工厂函数的方式返回路由，为了减少打包文件的体积，采用异步加载组件，进行按需加载。
 
-webpack打包异步组件需要在babel-plugin-dynamic-import-node插件，安装后在.babelrc里加上"plugins": ["dynamic-import-node"]
+webpack打包异步组件需要在babel-plugin-dynamic-import-node插件，安装后在.babelrc文件里加上"plugins": ["dynamic-import-node"]
 ```javascript
 //main.js
 

@@ -2,10 +2,10 @@
 我们知道vue是响应式的，渲染页面的同时异步获取数据，再将的数据渲染到界面。在服务器中我们只需要服务器返回html就行，不需要响应式数据，并且响应式也会给服务器增加负载。  
 所以渲染html的时候需要已经获取到数据，需要对数据进行预读取。
 在访问vue网站的时候，切换页面都会通过路由，路由也决定了需要访问和渲染哪些组件，这时候就需要获取到这些组件中的数据，所以数据的预读取我们就在路由中进行。
-另一个就是在客户端中，在打包的文件client.bundle.js挂载(vueApp.$mount('#app') )到页面之前，也需要获得跟服务端一样的的数据,不然会导致导致混合失败。
+另一个就是在客户端中，在打包的文件client.bundle.js挂载(vueApp.$mount('#app') )到页面之前，也需要获得跟服务端一样的的数据。
 
-我们需要一个专门的容器来存储获取到的数据，客户端和服务端都使用这个容器。
-这里采用vuex来存取数据，当然你也可以自己设计一个。
+我们需要一个专门的容器来存储获取到的数据，客户端和服务端都使用这个容器。  
+这里采用vuex来存取数据，当然你也可以自己设计一个。  
 src目录先创建一个store.js
 ```javascript
 import Vue from 'vue'
@@ -38,7 +38,7 @@ export function createStore() {
 }
 ```
 也是工厂函数的方式创建。简单说一下vuex，state是用来存放数据的，mutations是用来修改数据的，通过store.commit('setItem')来触发，但是不支持异步操作。
-actions是用来提交mutations的。通过store.dispatch('fetchItem')来触发，获取到数据后再提交mutations中的方法修改数据,主要用于异步修改数据。
+actions是用来提交mutations的，通过store.dispatch('fetchItem')来触发，获取到数据后再提交mutations中的方法修改数据,主要用于异步修改数据。
 ```javascript
 //fetch-data.js
 
@@ -123,7 +123,7 @@ export function createApp() {
     const vueApp = new Vue({
         router,
         store,
-        render: h => (h(app))
+        render: h => h(app)
     })
     return { vueApp, router, store }
 }
@@ -169,7 +169,7 @@ export default context => {
     })
 ```
 此时服务端返回的html代码中有```<script>window.__INITIAL_STATE__={"item":{"title":"我是foo的标题","content":"我是foo的内容"}}</script>```
-客户端可以通过store.replaceState方法修改state的值
+客户端可以通过store.replaceState方法修改state的值。  
 修改Foo和Bar组件
 ```javascript
 <template>

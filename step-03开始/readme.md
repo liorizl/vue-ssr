@@ -1,16 +1,16 @@
 # step-03 开始vue-ssr
->开始之前先看看vue ssr相比传统的单页面(SPA)的优势  
->1、更好的 SEO，由于搜索引擎爬虫抓取工具可以直接查看完全渲染的页面。  
->2、更快的内容到达时间 (time-to-content)，特别是对于缓慢的网络情况或运行缓慢的设备。  
+开始之前先看看vue ssr相比传统的单页面(SPA)的优势  
+1. 更好的 SEO，由于搜索引擎爬虫抓取工具可以直接查看完全渲染的页面。  
+2. 更快的内容到达时间 (time-to-content)，特别是对于缓慢的网络情况或运行缓慢的设备。  
 我们的目的是让后端返回html代码，但是返回的html代码都是静态的，还需要在前端对这些代码进行“激活”，让它们能对数据的变化做出反应。这些“激活”的代码bundle.js通过由webpack对vue文件的打包来获得，跟SPA差不多。再将这个bundle进行分割，进行按需加载和预加载等操作，实现更快的内容到达时间。
 
 这里我们在step-01项目的基础上进行修改。  
 我们需要2份bundle文件，一份是用来服务端渲染成html,一份用来浏览器端激活html，打包也需要2个不同的入口文件。
 浏览器端入口文件为entry-client.js,服务端入口文件为entry-server.js。  
->并将wepack.config.js拆分为3个文件分别：
-> +webpack-base-oonf.js（基础配置文件）
-> +webpack.client.conf.js
-> +webpack-server.conf.js
+并将wepack.config.js拆分为3个文件分别：  
+1. webpack-base-oonf.js（基础配置文件）
+2. webpack.client.conf.js
+3. webpack-server.conf.js
 新建一个index.ssr.html文件作为服务端渲染模版。 
 删除index.html文件，因为直接从nodejs服务器返回html代码，不需要这文件了。  
 ```javascript
@@ -18,12 +18,12 @@
 import Vue from 'vue'
 import app from './App.vue'
 // import router from './router.js'
-// 先去掉路由，后面再配置
+// 先去掉路由，和样式后面再配置
 // import '../assets/global.less'
 // new Vue({
 //     el: '#app',
 //     router,
-//     render: h => (h(app))
+//     render: h => h(app)
 // })
 export function createApp() {
     return new Vue({
@@ -163,11 +163,11 @@ export default context => {
 </body>
 </html>
 ```
-<!--vue-ssr-outlet--> 是一个占位符，必须要加上，vue-server-renderer会将它替换为渲染出的html。  
+```<!--vue-ssr-outlet-->``` 是一个占位符，必须要加上，vue-server-renderer会将它替换为渲染出的html。  
 <script src="client.bundle.js"></script>插入client-entry打包的文件进行测试，后期会删除。
 
-此时运行npm run build:server 会打包出vue-ssr-server-bundle.json文件，如果你想修改名字可以在配置里加上参数，
-如：new VueSSRServerPlugin({ filename = "vuessrbundle.json" })
+此时运行```npm run build:server``` 会打包出vue-ssr-server-bundle.json文件，如果你想修改名字可以在配置里加上参数，
+如：new VueSSRServerPlugin({ filename = "vuessrbundle.json" })  
 源码
 ```javascript
 var VueSSRServerPlugin = function VueSSRServerPlugin (options) {

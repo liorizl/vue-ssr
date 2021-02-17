@@ -63,7 +63,7 @@ const devMiddleware = (compiler, option = null) => {
             next)
     }
 }
-koaApp.use(webpackDevMiddleware(serverCompiler))
+koaApp.use(devMiddleware(serverCompiler))
 // 其他代码
 ```
 不过有koa-webpack-dev-middleware,我们不用那么麻烦，可以直接像示例那样使用。  
@@ -107,7 +107,7 @@ serverCompiler.outputFileSystem = mfs
 koaApp.use(webpackDevMiddleware(serverConf))
 ```
 运行打包后使用```mfs.readFileSync(process.cwd() + '/dist/vue-ssr-server-bundle.json', 'utf-8')```就可以读取到打包的内容。
-重点讲一下这一句:```serverCompiler.outputFileSystem = mfs```
+重点讲一下这一句:```serverCompiler.outputFileSystem = mfs```   
 先看memory-fs源代码
 ```javascript
 function MemoryFileSystem(data) {
@@ -252,21 +252,22 @@ koaApp.use(koaStatic(process.cwd() + '/assets/'))
 > + 触发 DOM 更新。
 > + 调用 beforeRouteEnter 守卫中传给 next 的回调函数，创建好的组件实例会作为回调函数的参数传入。
 
-路由一共有三个全局路由守卫,按照调用顺序分别为beforeEach,beforeResolve,afterEach,
+路由一共有7个路由守卫。  
+> 三个全局路由守卫,按照调用顺序分别为beforeEach,beforeResolve,afterEach。
 > 三个组件内部守卫:
 > + beforeRouteLeave：即将离开的组件里调用，比如从foo->bar会调用foo组件里的beforeRouteLeave
 > + beforeRouteUpdate：组件被复用时调用，比如动态路由/foo/:id,从/foo/1->/foo/2因为是同一个组件，所以组件会被复用，不会调用组件的生命周期钩子，但会调用此方法
-> + beforeRouteEnter: 路由进入需要到达的(to)组件，并获取该组件的数据，会调用该组件beforeRouteEnter方法，但是此组件还没有实例化，获取不到this
+> + beforeRouteEnter: 路由进入需要到达的(to)组件，并获取该组件的数据，会调用该组件beforeRouteEnter方法，但是此组件还没有实例化，获取不到this。  
 > 一个路由配置守卫:
 > + beforeEnter: 定义在router.js里，比如：
-```{ path: '/foo', component: foo, name: 'foo', beforeEnter:(to, from, next) => { console.log('路由即将读取组件foo的数据'); next() } }```
+```{ path: '/foo', component: foo, name: 'foo', beforeEnter:(to, from, next) => { console.log('路由即将读取组件foo的数据'); next() } }```  
 这7个路由守卫参数都有3个参数to,from,next(afterEach除外，它没有next参数，因为此时路由已经解析完成)。  
 > to和from参数表示到达和离开的路由,next是一个函数，参数如下：
 > + next(false)表示终止此路由,
 > + next('/')或next({ path: '/' }) 终止此路由跳转到其他路由，新的路由会被重新进行一次导航过程，可以在对象中添加其他参数比如params,query等
 > + next(error) 如果参数error是Error的实例,导航会被终止并且将错误传递给用router.onError()注册过的回调
-> + next(callback)) 只有在beforeRouteEnter中才能传入回调函数，因为beforeRouteEnter中访问不到this,所以作者让beforeRouteEnter中的next方法参数支持一个回调函数，回调函数会在路由全部解析完成后调用.
-每个卫士都必须调用next(afterEach除外),不然路由不会进入下一步。
+> + next(callback)) 只有在beforeRouteEnter中才能传入回调函数，因为beforeRouteEnter中访问不到this,所以作者让beforeRouteEnter中的next方法参数支持一个回调函数，回调函数会在路由全部解析完成后调用。
+每个卫士都必须调用next(afterEach除外),不然路由不会进入下一步。  
 现在可以测试一下  
 在entry.client.js中添加和修改 
 ```javascript 
@@ -289,12 +290,12 @@ router.onReady(() => {
     vueApp.$mount('#app') 
 })
 ```
-router.js修改
+router.js修改  
 ```javascript
-    { path: '/foo', component: foo, name: 'foo', beforeEnter:(to, from, next) => { console.log('路由即将读取组件foo的数据'); next() } },
-    { path: '/bar', component: bar, name: 'bar', beforeEnter:(to, from, next) =>{ console.log('路由即将读取组件bar的数据'), next() } }
+{ path: '/foo', component: foo, name: 'foo', beforeEnter:(to, from, next) => { console.log('路由即将读取组件foo的数据'); next() } },
+{ path: '/bar', component: bar, name: 'bar', beforeEnter:(to, from, next) =>{ console.log('路由即将读取组件bar的数据'), next() } }
 ```
-在foo和bar组件中分别添加(在bar组件中注意将foo改成bar)
+在foo和bar组件中分别添加(在bar组件中注意将foo改成bar)  
 ```javascript
     beforeRouteLeave(to, from, next) {
         console.log('路由触发从foo离开')
@@ -312,23 +313,23 @@ router.js修改
     },
 ```
 此时运行会出打印出
-*路由即将读取组件foo的数据
-*路由已经激活foo组件，所有组件内守卫都已经调用了
-*调用全局beforeResolve
-*调用全局afterEach
-**路由完成最后再调用onReady,我是第一个回调
-路由完成最后再调用onReady,我是第二个回调
-*这个回调函数在路由完成DOM更新后才会执行
+* 路由即将读取组件foo的数据
+* 路由已经激活foo组件，所有组件内守卫都已经调用了
+* 调用全局beforeResolve
+* 调用全局afterEach
+* 路由完成最后再调用onReady,我是第一个回调
+* 路由完成最后再调用onReady,我是第二个回调
+* 这个回调函数在路由完成DOM更新后才会执行
 
 再点击路由会打印出
 
-*路由触发从foo离开
-*调用全局beforeEach
-*路由即将读取组件bar的数据
-*路由已经激活bar组件，bar组件内所有守卫都已经调用了
-*调用全局beforeResolve
-*调用全局afterEach
-*这个回调函数在路由完成DOM更新后才会执行
+* 路由触发从foo离开
+* 调用全局beforeEach
+* 路由即将读取组件bar的数据
+* 路由已经激活bar组件，bar组件内所有守卫都已经调用了
+* 调用全局beforeResolve
+* 调用全局afterEach
+* 这个回调函数在路由完成DOM更新后才会执行
 与我们预想中的一样,因为是在组件foo和bar间切换，组件没复用，所以beforeRouteUpdate没有调用。   
 这些路由守卫都是异步函数，但是在上一步没有调用next()之前，不会进行下一步，你可以加入setTimeout进行测试。   
 

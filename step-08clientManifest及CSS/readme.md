@@ -59,13 +59,13 @@ await renderer.renderToString(context).then(html => {
 此时在main.js中引入的global.less和.vue组件中的样式都被注入到style标签中，在开发模式下因为我们要使用热重载功能这样做是很好的，但是在生产模式下应该将共用的样式如：global.less通过引入的方式加载```<style src="/assets/global.css">```以便于缓存重复使用。
 使用插件extract-text-webpack-plugin可以实现我们想要的东西。
 
-```Chunk.entrypoints: Use Chunks.groupsIterable and filter by instanceof Entrypoint instead```
-如果出现此错误，就重新安装下一版的extract-text-webpack-plugin
-```npm i extract-text-webpack-plugin@next```
+```Chunk.entrypoints: Use Chunks.groupsIterable and filter by instanceof Entrypoint instead```  
+如果出现此错误，就重新安装下一版的extract-text-webpack-plugin  
+```npm i extract-text-webpack-plugin@next```  
 
 ## client manifest
 客户端打包时生成clientManifest,后端调用createBundleRenderer时候将其添加到参数，vue-server-renderer可以自动推断出哪些需要预加载和预取(preload,prefetch),
-从而提高打开页面的速度。
+从而提高打开页面的速度。  
 webpack.client.conf.js中添加
 ```javascript
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')

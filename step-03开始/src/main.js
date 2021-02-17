@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import app from './App.vue'
 // import router from './router.js'
-// 先去掉路由，后面再配置
+// 先去掉路由和样式，后面再配置
 // import '../assets/global.less'
 // new Vue({
 //     el: '#app',
