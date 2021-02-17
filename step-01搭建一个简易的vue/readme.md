@@ -42,7 +42,7 @@
 ```
 根目录下新建src目录，并在src下添加入口文件main.js、app.vue  
 ```javascript
-main.js
+// main.js
 import Vue from 'vue'
 import app from './App.vue'
 
