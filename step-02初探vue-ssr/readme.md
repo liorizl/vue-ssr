@@ -1,8 +1,8 @@
 # step-02初探vue-ssr
 在vue-ssr中，vue会运行在客户端和服务端，首先安装vue-server-renderer和vue，它们版本必须匹配。
 先在根目录创建server.js  
-//现在是在nodejs环境下，使用commonjs导入 
 ```javascript
+//现在是在nodejs环境下，使用commonjs导入 
 const Vue = require('vue')
 const vueRenderer = require('vue-server-renderer')
 
