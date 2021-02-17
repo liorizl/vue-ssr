@@ -252,14 +252,14 @@ koaApp.use(koaStatic(process.cwd() + '/assets/'))
 > + 触发 DOM 更新。
 > + 调用 beforeRouteEnter 守卫中传给 next 的回调函数，创建好的组件实例会作为回调函数的参数传入。
 
-> 路由一共有7个路由守卫。  
-> > 三个全局路由守卫,按照调用顺序分别为beforeEach,beforeResolve,afterEach。
-> > 三个组件内部守卫:
-> > > beforeRouteLeave：即将离开的组件里调用，比如从foo->bar会调用foo组件里的beforeRouteLeave
-> > > beforeRouteUpdate：组件被复用时调用，比如动态路由/foo/:id,从/foo/1->/foo/2因为是同一个组件，所以组件会被复用，不会调用组件的生命周期钩子，但会调用此方法
-> > > beforeRouteEnter: 路由进入需要到达的(to)组件，并获取该组件的数据，会调用该组件beforeRouteEnter方法，但是此组件还没有实例化，获取不到this。  
-> > 一个路由配置守卫:
-> > > beforeEnter: 定义在router.js里，比如：
+路由一共有7个路由守卫,可以分为三类。  
+1. 三个全局路由守卫,按照调用顺序分别为beforeEach,beforeResolve,afterEach。  
+2. 三个组件内部守卫:
+    - beforeRouteLeave：即将离开的组件里调用，比如从foo->bar会调用foo组件里的beforeRouteLeave
+    - beforeRouteUpdate：组件被复用时调用，比如动态路由/foo/:id,从/foo/1->/foo/2因为是同一个组件，所以组件会被复用，不会调用组件的生命周期钩子，但会调用此方法
+    - beforeRouteEnter: 路由进入需要到达的(to)组件，并获取该组件的数据，会调用该组件beforeRouteEnter方法，但是此组件还没有实例化，获取不到this。  
+3. 一个路由配置守卫:
+    - beforeEnter: 定义在router.js里，比如：
 ```{ path: '/foo', component: foo, name: 'foo', beforeEnter:(to, from, next) => { console.log('路由即将读取组件foo的数据'); next() } }```  
 这7个路由守卫参数都有3个参数to,from,next(afterEach除外，它没有next参数，因为此时路由已经解析完成)。  
 to和from参数表示到达和离开的路由,next是一个函数，参数如下：
