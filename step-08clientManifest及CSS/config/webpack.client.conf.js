@@ -10,9 +10,6 @@ module.exports = merge(base, {
         client: ['webpack-hot-middleware/client?reload=true', path.resolve(__dirname, '../entry-client.js')]
     },
     devtool: 'source-map',
-    output: {
-        publicPath: '/dist/'
-    },
     optimization: {
         runtimeChunk: {
             // 别名

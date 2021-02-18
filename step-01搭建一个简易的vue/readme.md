@@ -2,7 +2,7 @@
 开始之前我们先来复习下vue,先搭建一个简单的vue项目。  
 目录下运行 npm init 初始化项目。  
 根目录新建一个webpack.config.js文件，并将移除package.json的main入口，在webpack.config.js里定义入口文件，并添加"private": true。  
-安装webpack(webpack-cli安装的是3.X的版本)以及其他需要的包。  
+安装webpack(webpack安装的4.X版本,因为这时很多包在webpack5下会出问题,webpack-cli安装的是3.X的版本)以及其他需要的包。  
 ```javascript
 {
     "name": "step-01",
@@ -21,6 +21,7 @@
         "babel-loader": "^7.1.5",
         "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
         "css-loader": "^5.0.1",
+        "html-webpack-plugin": "^4.5.1",
         "less": "^4.0.0",
         "less-loader": "^7.2.1",
         "path": "^0.12.7",
@@ -35,10 +36,10 @@
         "webpack-dev-server": "^3.11.1"
     },
     "dependencies": {
-        "html-webpack-plugin": "^4.5.0",
-        "webpack": "^5.11.1"
+        "webpack": "^4.46.0"
     }
 }
+
 ```
 根目录下新建src目录，并在src下添加入口文件main.js、app.vue  
 ```javascript

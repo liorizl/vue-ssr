@@ -14,7 +14,10 @@ koaApp.use(async (ctx, next) => {
     })
     const context = {
         // entery-server.js里参数context有url属性
-        url: ctx.path
+        // 你还可以传入其他自定义属性，在模版文件index.ssr.html中使用{{}}(转义)或{{{}}}(不转义)获取，
+        // 当然也可定义到entry.server.js的context中
+        url: ctx.path,
+        title: 'vue-ssr step-04路由'
     }
     // context将会作为entry-server.js导出函数的参数，并且在renderToString的回调函数中还会在context中注入一些其他信息，比如解析过程收集到的css
     await renderer.renderToString(context).then(html => {

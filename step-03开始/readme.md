@@ -224,7 +224,8 @@ koaApp.use(router.routes())
 koaApp.listen(3019, () => { console.log('server started at 3019') })
 ```
 运行node server,在浏览器打开localhost:3019可以看到，服务端返回了html，并且在入口的div上加了```data-server-rendered="true"```。
-此时有一个错误Cannot find element: #app。因为模版文件index.ssr.html并没有 id="app"的标签，应该在入口VUE文件app.vue的根目录加上。
+此时有一个错误Cannot find element: #app。因为模版文件index.ssr.html并没有 id="app"的标签，vue-server-renderer也不会自动添加，
+需要在入口VUE文件app.vue的根目录加上。
 
 
 

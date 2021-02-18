@@ -47,7 +47,8 @@ koaApp.use(async (ctx, next) => {
         template: template
     })
     const context = {
-        url: ctx.path
+        url: ctx.path,
+        title: 'vue-ssr step-07异步数据二'
     }
     await renderer.renderToString(context).then(html => {
         ctx.body = html

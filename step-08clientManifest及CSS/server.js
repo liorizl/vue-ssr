@@ -43,14 +43,14 @@ koaApp.use(async (ctx, next) => {
     const bundle = JSON.parse(serverOfs.readFileSync(process.cwd() + '/dist/vue-ssr-server-bundle.json', 'utf-8'))
     // 注意要用clientCompiler.outputFileSystem读取客户端打包的文件
     const clientManifest = JSON.parse(clientCompiler.outputFileSystem.readFileSync(process.cwd() + '/dist/vue-ssr-client-manifest.json', 'utf-8'))
-    // clientManifest.publicPath = '/'
     const renderer = vueRenderer.createBundleRenderer(bundle, {
         runInNewContext: false,
         template: template,
         clientManifest
     })
     const context = {
-        url: ctx.path
+        url: ctx.path,
+        title: 'vue-ssr step-08 clientManifest及CSS'
     }
     await renderer.renderToString(context).then(html => {
         // 此时的context将会有renderStyles,renderState等方法

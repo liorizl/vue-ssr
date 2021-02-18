@@ -89,7 +89,7 @@ path: '/bar/:id?'表示id可以存在也可以不存在 vue-router的路径解�
 点开这个错误一看，client.bundle.js居然是返回的一段html,这是因为我在index.ssr.html中引入的client.bundle.js采用的相对路径  
 ```<script src="client.bundle.js"></script>```  
 当前浏览器的url是```http://localhost:3019/foo/1```，加载client.bundle.js的时候浏览器就会去访问```http://localhost:3019/foo/client.bundle.js```，刚好路由就将client.bundle.js当成了:id匹配到foo这个组件，就返回了```http://localhost:3019/foo```页面的html，  
-解决的方法是在webpack.base.conf.js的output里加上publicPath: '/dist/'。
+解决的方法是在webpack.base.conf.js的output里加上publicPath: '/'。
 ```javascript
 //entry-server
 
