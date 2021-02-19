@@ -262,6 +262,8 @@ koaApp.use(koaStatic(process.cwd() + '/assets/'))
 3. 一个路由配置守卫:
     * beforeEnter: 定义在router.js里，比如：
 ```{ path: '/foo', component: foo, name: 'foo', beforeEnter:(to, from, next) => { console.log('路由即将读取组件foo的数据'); next() } }```  
+
+
 这7个路由守卫参数都有3个参数to,from,next(afterEach除外，它没有next参数，因为此时路由已经解析完成)。 
 
 to和from参数表示到达和离开的路由,next是一个函数，参数如下：  
